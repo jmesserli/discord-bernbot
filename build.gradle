@@ -40,6 +40,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     compile 'io.github.lukehutch:fast-classpath-scanner:2.0.16'
+    compile 'net.bytebuddy:byte-buddy:1.6.8'
 
     // Metadata for configuration properties
     compile "org.springframework.boot:spring-boot-configuration-processor"
@@ -48,5 +49,4 @@ dependencies {
     // JitPack Repositories (cached by Nexus for 1d)
     compile('com.github.austinv11:Discord4j:2.7.0')
     compile('com.github.Discord4J-Addons:Discord4K:3ed1688')
-//    compile('com.github.Discord4J-Addons:Module-Loader-Plus:1.0.3')
 }

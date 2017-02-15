@@ -1,7 +1,7 @@
 package nu.peg.discord.config
 
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
-import org.slf4j.LoggerFactory
+import nu.peg.discord.util.getLogger
 import org.springframework.boot.context.event.ApplicationPreparedEvent
 import org.springframework.context.ApplicationListener
 import sx.blah.discord.api.IDiscordClient
@@ -10,7 +10,7 @@ import sx.blah.discord.modules.ModuleLoader
 
 class FastD4JClasspathModuleLoader : ApplicationListener<ApplicationPreparedEvent>, IModule {
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(FastD4JClasspathModuleLoader::class.java)
+        private val LOGGER = getLogger(FastD4JClasspathModuleLoader::class)
     }
 
     override fun onApplicationEvent(event: ApplicationPreparedEvent?) {

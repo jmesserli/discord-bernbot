@@ -1,13 +1,26 @@
 package nu.peg.discord.d4j
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import nu.peg.discord.command.CommandDispatcher
+import nu.peg.discord.util.getLogger
+import org.springframework.stereotype.Component
 import sx.blah.discord.api.IDiscordClient
+import sx.blah.discord.api.events.IListener
+import sx.blah.discord.handle.impl.events.MessageReceivedEvent
 import sx.blah.discord.modules.IModule
+import javax.inject.Inject
 
-class BaernBotModule : IModule {
+@Component
+class BaernBotModule : IModule, IListener<MessageReceivedEvent> {
     companion object {
-        private val LOGGER: Logger = LoggerFactory.getLogger(BaernBotModule::class.java)
+        private val LOGGER = getLogger(BaernBotModule::class)
+    }
+
+    @Inject
+    lateinit var dispatcher: CommandDispatcher
+
+    override fun handle(event: MessageReceivedEvent?) {
+        val message = event!!.message!!
+        dispatcher.dispatch(message)
     }
 
     override fun enable(client: IDiscordClient?): Boolean {

@@ -15,4 +15,5 @@ class DiscordApiProperties {
 
 class DiscordBotProperties {
     var token: String? = null
+    var prefix: String? = null
 }
