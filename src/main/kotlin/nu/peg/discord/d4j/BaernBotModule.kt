@@ -1,4 +1,4 @@
-package nu.peg.discord.api
+package nu.peg.discord.d4j
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

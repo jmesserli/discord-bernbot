@@ -1,6 +1,6 @@
 package nu.peg.discord
 
-import nu.peg.discord.config.InternalModuleLoaderSpringEventListener
+import nu.peg.discord.config.FastD4JClasspathModuleLoader
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 
@@ -9,7 +9,7 @@ class BaernBotApplication
 
 fun main(args: Array<String>) {
     SpringApplicationBuilder()
-            .listeners(InternalModuleLoaderSpringEventListener())
+            .listeners(FastD4JClasspathModuleLoader())
             .sources(BaernBotApplication::class.java)
             .run(*args)
 }

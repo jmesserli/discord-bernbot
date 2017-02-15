@@ -8,9 +8,9 @@ import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.modules.IModule
 import sx.blah.discord.modules.ModuleLoader
 
-class InternalModuleLoaderSpringEventListener : ApplicationListener<ApplicationPreparedEvent>, IModule {
+class FastD4JClasspathModuleLoader : ApplicationListener<ApplicationPreparedEvent>, IModule {
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(InternalModuleLoaderSpringEventListener::class.java)
+        private val LOGGER = LoggerFactory.getLogger(FastD4JClasspathModuleLoader::class.java)
     }
 
     override fun onApplicationEvent(event: ApplicationPreparedEvent?) {
