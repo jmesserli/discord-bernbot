@@ -1,11 +1,12 @@
 package nu.peg.discord.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.NestedConfigurationProperty
 
 @ConfigurationProperties("discord")
 class DiscordProperties {
-    var api: DiscordApiProperties? = null
-    var bot: DiscordBotProperties? = null
+    @NestedConfigurationProperty var api: DiscordApiProperties? = null
+    @NestedConfigurationProperty var bot: DiscordBotProperties? = null
 }
 
 class DiscordApiProperties {
