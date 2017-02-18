@@ -5,9 +5,7 @@ import net.bytebuddy.dynamic.ClassFileLocator
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy
 import net.bytebuddy.implementation.MethodDelegation
 import net.bytebuddy.implementation.SuperMethodCall
-import net.bytebuddy.implementation.bind.annotation.Argument
-import net.bytebuddy.implementation.bind.annotation.Origin
-import net.bytebuddy.implementation.bind.annotation.This
+import net.bytebuddy.implementation.bind.annotation.*
 import net.bytebuddy.matcher.ElementMatchers
 import net.bytebuddy.pool.TypePool
 import nu.peg.discord.config.BeanNameRegistry.STATIC_APP_CONTEXT
@@ -22,7 +20,7 @@ import sx.blah.discord.modules.Configuration
 import sx.blah.discord.modules.IModule
 import sx.blah.discord.modules.ModuleLoader
 import java.lang.reflect.Constructor
-import java.util.*
+import java.util.ArrayList
 import javax.annotation.PostConstruct
 
 /**
@@ -31,9 +29,9 @@ import javax.annotation.PostConstruct
  * @author Joel Messerli @15.02.2017
  */
 @Component @DependsOn(STATIC_APP_CONTEXT)
-class D4JModuleLoaderProxy : IModule {
+class D4JModuleLoaderReplacer : IModule {
     companion object {
-        private val LOGGER = getLogger(D4JModuleLoaderProxy::class)
+        private val LOGGER = getLogger(D4JModuleLoaderReplacer::class)
     }
 
     @PostConstruct
@@ -65,22 +63,21 @@ class SpringInjectingModuleLoaderInterceptor {
 
         @Suppress("UNCHECKED_CAST")
         @JvmStatic
-        fun <T> intercept(@Origin ctor: Constructor<T>, @Argument(0) discordClient: IDiscordClient?, @This loader: ModuleLoader) {
+        fun <T> intercept(
+                @This loader: ModuleLoader,
+                @Origin ctor: Constructor<T>,
+                @Argument(0) discordClient: IDiscordClient?,
+
+                @FieldValue("modules") modules: List<Class<out IModule>>,
+                @FieldValue("loadedModules") loadedModules: MutableList<IModule>
+        ) {
             LOGGER.debug("Intercepting $ctor")
             val loaderClass = loader.javaClass
             val clientField = loaderClass.getDeclaredField("client")
             clientField.isAccessible = true
             clientField.set(loader, discordClient)
 
-            val modulesField = loaderClass.getDeclaredField("modules")
-            modulesField.isAccessible = true
-            val modules = modulesField.get(loader) as List<Class<out IModule>>
-
-            val loadedModulesField = loaderClass.getDeclaredField("loadedModules")
-            loadedModulesField.isAccessible = true
-            val loadedModules = loadedModulesField.get(loader) as MutableList<IModule>
-
-            val canModuleLoadMethod = loaderClass.getDeclaredMethod("canModuleLoad")
+            val canModuleLoadMethod = loaderClass.getDeclaredMethod("canModuleLoad", IModule::class.java)
             canModuleLoadMethod.isAccessible = true
 
             val factory = StaticAppContext.context.autowireCapableBeanFactory
@@ -101,7 +98,7 @@ class SpringInjectingModuleLoaderInterceptor {
             if (Configuration.AUTOMATICALLY_ENABLE_MODULES) { // Handles module load order and loads the modules
                 val toLoad = ArrayList<IModule>(loadedModules)
 
-                val loadModuleMethod = loaderClass.getDeclaredMethod("loadModule")
+                val loadModuleMethod = loaderClass.getDeclaredMethod("loadModule", IModule::class.java)
                 while (toLoad.size > 0) {
                     toLoad.filter { loadModuleMethod.invoke(loader, it) as Boolean }.forEach { toLoad.remove(it) }
                 }

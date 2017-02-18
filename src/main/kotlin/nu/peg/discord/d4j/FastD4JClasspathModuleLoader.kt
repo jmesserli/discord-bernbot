@@ -1,4 +1,4 @@
-package nu.peg.discord.config
+package nu.peg.discord.d4j
 
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
 import nu.peg.discord.config.BeanNameRegistry.MODULE_LOADER_PROXY
