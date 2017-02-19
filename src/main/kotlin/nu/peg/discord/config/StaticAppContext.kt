@@ -9,11 +9,10 @@ import org.springframework.stereotype.Component
  * @author Joel Messerli @15.02.2017
  */
 @Component
-class StaticAppContext : ApplicationContextAware {
-    companion object {
-        private val LOGGER = getLogger(StaticAppContext::class)
-        lateinit var context: ApplicationContext
-    }
+object StaticAppContext : ApplicationContextAware {
+    private val LOGGER = getLogger(StaticAppContext::class)
+
+    @Volatile @JvmStatic lateinit var context: ApplicationContext
 
     override fun setApplicationContext(applicationContext: ApplicationContext?) {
         context = applicationContext!!
