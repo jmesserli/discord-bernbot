@@ -1,7 +1,7 @@
 package nu.peg.discord.d4j
 
 import nu.peg.discord.command.CommandDispatcher
-import nu.peg.discord.config.StaticAppContext
+import nu.peg.discord.command.CommandParser
 import nu.peg.discord.util.getLogger
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.api.events.IListener
@@ -9,17 +9,20 @@ import sx.blah.discord.handle.impl.events.MessageReceivedEvent
 import sx.blah.discord.modules.IModule
 import javax.inject.Inject
 
-class BaernBotModule : IModule, IListener<MessageReceivedEvent> {
+class BaernBotModule
+@Inject constructor(
+        val parser: CommandParser,
+        val dispatcher: CommandDispatcher
+) : IModule, IListener<MessageReceivedEvent> {
     companion object {
         private val LOGGER = getLogger(BaernBotModule::class)
     }
 
-    @Inject
-    lateinit var dispatcher: CommandDispatcher
-
     override fun handle(event: MessageReceivedEvent?) {
         val message = event!!.message!!
-        dispatcher.dispatch(message)
+        val command = parser.parse(message)
+        if (command != null)
+            dispatcher.dispatch(command)
     }
 
     override fun enable(client: IDiscordClient?): Boolean {

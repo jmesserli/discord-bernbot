@@ -1,5 +1,7 @@
 package nu.peg.discord.command
 
+import sx.blah.discord.handle.obj.IMessage
+
 /**
  * A command is a parsed form of a raw string command
  *
@@ -8,4 +10,5 @@ package nu.peg.discord.command
 interface Command {
     fun getName(): String
     fun getArgs(): Array<String>
+    fun getMessage(): IMessage
 }

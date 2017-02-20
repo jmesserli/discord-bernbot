@@ -1,10 +1,10 @@
 package nu.peg.discord.d4j
 
 import net.bytebuddy.ByteBuddy
+import net.bytebuddy.agent.ByteBuddyAgent
 import net.bytebuddy.dynamic.ClassFileLocator
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy
 import net.bytebuddy.implementation.MethodDelegation
-import net.bytebuddy.implementation.SuperMethodCall
 import net.bytebuddy.implementation.bind.annotation.*
 import net.bytebuddy.matcher.ElementMatchers
 import net.bytebuddy.pool.TypePool
@@ -37,14 +37,15 @@ class D4JModuleLoaderReplacer : IModule {
     @PostConstruct
     fun replaceModuleLoader() {
         val pool = TypePool.Default.ofClassPath()
+        ByteBuddyAgent.install()
 
         ByteBuddy().rebase<Any>(
                 pool.describe("sx.blah.discord.modules.ModuleLoader").resolve(), ClassFileLocator.ForClassLoader.ofClassPath()
         ).constructor(
                 ElementMatchers.any()
         ).intercept(
-                SuperMethodCall.INSTANCE.andThen(MethodDelegation.to(pool.describe("nu.peg.discord.d4j.SpringInjectingModuleLoaderInterceptor").resolve()))
-        ).make().load(ClassLoader.getSystemClassLoader(), ClassLoadingStrategy.Default.INJECTION)
+                MethodDelegation.to(pool.describe("nu.peg.discord.d4j.SpringInjectingModuleLoaderInterceptor").resolve())
+        ).make().load(Thread.currentThread().contextClassLoader, ClassLoadingStrategy.Default.INJECTION)
 
         LOGGER.info("The D4J ModuleLoader has been replaced with ByteBuddy to allow for Spring injection")
     }
