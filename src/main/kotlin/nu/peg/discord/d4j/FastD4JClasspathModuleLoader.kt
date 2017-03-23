@@ -1,7 +1,7 @@
 package nu.peg.discord.d4j
 
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
-import nu.peg.discord.config.BeanNameRegistry.MODULE_LOADER_PROXY
+import nu.peg.discord.config.BeanNameRegistry.STATIC_APP_CONTEXT
 import nu.peg.discord.util.getLogger
 import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
@@ -10,7 +10,7 @@ import sx.blah.discord.modules.IModule
 import sx.blah.discord.modules.ModuleLoader
 import javax.annotation.PostConstruct
 
-@Component @DependsOn(MODULE_LOADER_PROXY)
+@Component @DependsOn(STATIC_APP_CONTEXT)
 class FastD4JClasspathModuleLoader : IModule {
     companion object {
         private val LOGGER = getLogger(FastD4JClasspathModuleLoader::class)

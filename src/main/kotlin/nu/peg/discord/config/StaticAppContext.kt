@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 object StaticAppContext : ApplicationContextAware {
     private val LOGGER = getLogger(StaticAppContext::class)
 
-    @Volatile @JvmStatic lateinit var context: ApplicationContext
+    lateinit var context: ApplicationContext
 
     override fun setApplicationContext(applicationContext: ApplicationContext?) {
         context = applicationContext!!

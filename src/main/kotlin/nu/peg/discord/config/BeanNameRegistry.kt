@@ -7,6 +7,5 @@ package nu.peg.discord.config
  */
 object BeanNameRegistry {
     const val STATIC_APP_CONTEXT = "staticAppContext"
-    const val MODULE_LOADER_PROXY = "d4JModuleLoaderReplacer"
     const val CLASSPATH_MODULE_LOADER = "fastD4JClasspathModuleLoader"
 }
