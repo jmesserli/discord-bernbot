@@ -5,7 +5,7 @@ import nu.peg.discord.command.CommandParser
 import nu.peg.discord.config.DiscordProperties
 import org.springframework.stereotype.Component
 import sx.blah.discord.handle.obj.IMessage
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -29,8 +29,11 @@ class PrefixCommandParser @Inject constructor(discordProperties: DiscordProperti
         var args = arrayOf<String>()
         if (firstSpace != -1) {
             args = parsingRegex.findAll(noPrefix, firstSpace).map {
-                val groups = ArrayList(it.groups).map { it!! }.filterIndexed { i, group -> i > 0 }
-                val group = if (groups[0] != null) groups[0] else groups[1]
+                val groups = ArrayList(it.groups)
+                        .filter { it != null }
+                        .map { it!! }
+                        .filterIndexed { i, group -> i > 0 }
+                val group = groups.first()
                 return@map group.value
             }.toList().toTypedArray()
         }

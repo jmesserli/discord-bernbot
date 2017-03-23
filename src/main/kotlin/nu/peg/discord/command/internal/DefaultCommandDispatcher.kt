@@ -20,7 +20,7 @@ class DefaultCommandDispatcher @Inject constructor(private val handlers: List<Co
 
     override fun dispatch(command: Command) {
         for (handler in handlers) {
-            val applicable = handler.isApplicaple(command)
+            val applicable = handler.isApplicable(command)
             LOGGER.debug("Trying $handler for command $command (isApplicable: $applicable)")
 
             if (applicable) {

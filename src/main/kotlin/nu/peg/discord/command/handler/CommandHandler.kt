@@ -8,6 +8,6 @@ import nu.peg.discord.command.Command
  * @author Joel Messerli @23.03.2017
  */
 interface CommandHandler {
-    fun isApplicaple(command: Command): Boolean
+    fun isApplicable(command: Command): Boolean
     fun handle(command: Command)
 }

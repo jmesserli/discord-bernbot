@@ -13,7 +13,7 @@ import java.time.LocalDateTime
  */
 @Component
 class PingCommandHandler : CommandHandler {
-    override fun isApplicaple(command: Command): Boolean {
+    override fun isApplicable(command: Command): Boolean {
         return command.getName().equals("ping", true)
     }
 

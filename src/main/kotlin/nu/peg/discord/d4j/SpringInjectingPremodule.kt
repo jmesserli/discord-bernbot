@@ -2,6 +2,8 @@ package nu.peg.discord.d4j
 
 import nu.peg.discord.config.StaticAppContext
 import nu.peg.discord.module.BaernModule
+import nu.peg.discord.util.getLogger
+import org.slf4j.Logger
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.api.events.IListener
@@ -14,7 +16,12 @@ import sx.blah.discord.modules.IModule
  * @author Joel Messerli @23.03.2017
  */
 class SpringInjectingPremodule : IModule, IListener<MessageReceivedEvent> {
+    companion object {
+        private val LOGGER: Logger = getLogger(SpringInjectingPremodule::class)
+    }
+
     private var botModule: BaernModule? = null
+
 
     override fun enable(client: IDiscordClient): Boolean {
         botModule = StaticAppContext.context.autowireCapableBeanFactory
@@ -24,7 +31,11 @@ class SpringInjectingPremodule : IModule, IListener<MessageReceivedEvent> {
     }
 
     override fun handle(event: MessageReceivedEvent?) {
-        botModule?.handle(event)
+        try {
+            botModule?.handle(event)
+        } catch (e: Exception) {
+            LOGGER.error("Exception caught when handling message event", e)
+        }
     }
 
     override fun getName() = "BärnBot Spring Injecting Module Loader"
