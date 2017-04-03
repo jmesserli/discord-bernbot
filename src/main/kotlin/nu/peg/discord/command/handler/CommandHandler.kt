@@ -8,6 +8,7 @@ import nu.peg.discord.command.Command
  * @author Joel Messerli @23.03.2017
  */
 interface CommandHandler {
-    fun isApplicable(command: Command): Boolean
+    fun isAdminCommand(): Boolean
+    fun getNames(): List<String>
     fun handle(command: Command)
 }

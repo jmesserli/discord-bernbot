@@ -1,4 +1,4 @@
-package nu.peg.discord.d4j
+package nu.peg.discord.module.internal
 
 import nu.peg.discord.command.CommandDispatcher
 import nu.peg.discord.command.CommandParser

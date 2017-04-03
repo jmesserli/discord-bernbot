@@ -2,7 +2,6 @@ package nu.peg.discord.command.handler.internal
 
 import nu.peg.discord.command.Command
 import nu.peg.discord.command.handler.CommandHandler
-import nu.peg.discord.util.authorIsAdmin
 import org.springframework.stereotype.Component
 
 /**
@@ -12,10 +11,8 @@ import org.springframework.stereotype.Component
  */
 @Component
 class MoveChannelCommandHandler : CommandHandler {
-    override fun isApplicable(command: Command): Boolean {
-        val name = command.getName()
-        return command.getMessage().authorIsAdmin() && (name.equals("movechannel", true) || name.equals("mc", true))
-    }
+    override fun isAdminCommand() = true
+    override fun getNames() = listOf("mc", "movechannel")
 
     override fun handle(command: Command) {
         val message = command.getMessage()

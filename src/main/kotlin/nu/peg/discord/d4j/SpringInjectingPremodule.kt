@@ -2,6 +2,7 @@ package nu.peg.discord.d4j
 
 import nu.peg.discord.config.StaticAppContext
 import nu.peg.discord.module.BaernModule
+import nu.peg.discord.module.internal.BaernBotModule
 import nu.peg.discord.util.getLogger
 import org.slf4j.Logger
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory
@@ -21,7 +22,6 @@ class SpringInjectingPremodule : IModule, IListener<MessageReceivedEvent> {
     }
 
     private var botModule: BaernModule? = null
-
 
     override fun enable(client: IDiscordClient): Boolean {
         botModule = StaticAppContext.context.autowireCapableBeanFactory

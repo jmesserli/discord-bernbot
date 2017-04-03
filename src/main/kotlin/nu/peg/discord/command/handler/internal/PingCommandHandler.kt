@@ -13,9 +13,8 @@ import java.time.LocalDateTime
  */
 @Component
 class PingCommandHandler : CommandHandler {
-    override fun isApplicable(command: Command): Boolean {
-        return command.getName().equals("ping", true)
-    }
+    override fun isAdminCommand() = false
+    override fun getNames() = listOf("ping")
 
     override fun handle(command: Command) {
         val message = command.getMessage()

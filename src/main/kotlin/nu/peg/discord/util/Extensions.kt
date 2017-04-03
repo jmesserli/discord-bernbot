@@ -13,3 +13,5 @@ fun IMessage.authorIsAdmin(): Boolean {
     val permissions = author.getPermissionsForGuild(guild)
     return permissions.contains(Permissions.ADMINISTRATOR)
 }
+
+fun List<String>.containsIgnoreCase(str: String) = this.any { it.equals(str, true) }
