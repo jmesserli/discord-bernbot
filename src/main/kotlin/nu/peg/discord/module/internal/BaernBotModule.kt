@@ -5,13 +5,13 @@ import nu.peg.discord.command.CommandParser
 import nu.peg.discord.module.BaernModule
 import nu.peg.discord.util.getLogger
 import sx.blah.discord.api.IDiscordClient
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 import javax.inject.Inject
 
 class BaernBotModule
 @Inject constructor(
-        val parser: CommandParser,
-        val dispatcher: CommandDispatcher
+        private val parser: CommandParser,
+        private val dispatcher: CommandDispatcher
 ) : BaernModule {
     companion object {
         private val LOGGER = getLogger(BaernBotModule::class)

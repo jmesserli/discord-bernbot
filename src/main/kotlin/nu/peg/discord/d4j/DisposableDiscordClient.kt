@@ -5,7 +5,7 @@ import org.slf4j.Logger
 import org.springframework.beans.factory.DisposableBean
 import sx.blah.discord.api.IDiscordClient
 
-class DisposableDiscordClient(val client: IDiscordClient) : DisposableBean, IDiscordClient by client {
+class DisposableDiscordClient(private val client: IDiscordClient) : DisposableBean, IDiscordClient by client {
     companion object {
         private val LOGGER: Logger = getLogger(DisposableDiscordClient::class)
     }
