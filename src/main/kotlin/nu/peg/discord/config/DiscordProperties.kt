@@ -21,4 +21,5 @@ class DiscordApiProperties {
 class DiscordBotProperties {
     var token: String? = null
     var prefix: String? = null
+    var version: String? = null
 }

@@ -4,6 +4,7 @@ import nu.peg.discord.command.CommandDispatcher
 import nu.peg.discord.command.CommandParser
 import nu.peg.discord.module.BaernModule
 import nu.peg.discord.util.getLogger
+import org.springframework.beans.factory.annotation.Value
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 import javax.inject.Inject
@@ -11,7 +12,9 @@ import javax.inject.Inject
 class BaernBotModule
 @Inject constructor(
         private val parser: CommandParser,
-        private val dispatcher: CommandDispatcher
+        private val dispatcher: CommandDispatcher,
+        @Value("\${discord.bot.version:}")
+        private val version: String
 ) : BaernModule {
     companion object {
         private val LOGGER = getLogger(BaernBotModule::class)
@@ -21,6 +24,7 @@ class BaernBotModule
 
     override fun enable(client: IDiscordClient): Boolean {
         this.client = client
+        client.online("github.com/jmesserli/discord-bernbot v$version")
 
         LOGGER.info("Enabling BärnBot")
         return true

@@ -5,3 +5,4 @@ discord:
   bot:
     token: "#{DISCORD_BOT_TOKEN}"
     prefix: "#{DISCORD_BOT_PREFIX}"
+    version: "#{Octopus.Release.Number}"
