@@ -35,11 +35,11 @@ class SwapChannelCommandHandler : CommandHandler {
         }
 
         val targetUsers = foundChannel.connectedUsers
+        val sourceUsers = requesterChannel.connectedUsers
         for (user in targetUsers) {
             user.moveToVoiceChannel(requesterChannel)
         }
 
-        val sourceUsers = requesterChannel.connectedUsers
         for (user in sourceUsers) {
             user.moveToVoiceChannel(foundChannel)
         }
