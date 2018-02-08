@@ -34,6 +34,12 @@ jar {
     version = botVersion
 }
 
+test {
+    reports {
+        junitXml.enabled = true
+    }
+}
+
 task configurationZip(type: Zip) {
     archiveName = 'bernbot-configuration.' + botVersion + '.zip'
     from(fileTree(dir: 'src/main/resources').include('*.deploy.yml'))

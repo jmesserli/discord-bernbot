@@ -31,7 +31,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh './gradlew clean assemble configurationZip'
+                sh './gradlew clean assemble configurationZip --stacktrace --info'
             }
 
             post {
@@ -44,7 +44,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh './gradlew test'
+                sh './gradlew test --stacktrace --info'
             }
 
             post {
