@@ -4,15 +4,10 @@ import nu.peg.discord.command.Command
 import nu.peg.discord.command.handler.CommandHandler
 import org.springframework.stereotype.Component
 
-/**
- * TODO Short summary
- *
- * @author Joel Messerli @23.03.2017
- */
 @Component
-class MoveChannelCommandHandler : CommandHandler {
+class SwapChannelCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
-    override fun getNames() = listOf("mc", "movechannel")
+    override fun getNames() = listOf("sc", "swapchannel")
 
     override fun handle(command: Command) {
         val message = command.getMessage()
@@ -39,8 +34,13 @@ class MoveChannelCommandHandler : CommandHandler {
             return
         }
 
-        val users = requesterChannel.connectedUsers
-        for (user in users) {
+        val targetUsers = foundChannel.connectedUsers
+        for (user in targetUsers) {
+            user.moveToVoiceChannel(requesterChannel)
+        }
+
+        val sourceUsers = requesterChannel.connectedUsers
+        for (user in sourceUsers) {
             user.moveToVoiceChannel(foundChannel)
         }
     }
