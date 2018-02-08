@@ -15,7 +15,7 @@ import javax.inject.Inject
  */
 @Component
 class PrefixCommandParser @Inject constructor(discordProperties: DiscordProperties) : CommandParser {
-    private val prefix = discordProperties.bot!!.prefix!!
+    private val prefix = discordProperties.bot?.prefix ?: "."
     private val parsingRegex = Regex("\"([^\"]*)\"|(\\S+)")
 
     override fun parse(message: IMessage): Command? {

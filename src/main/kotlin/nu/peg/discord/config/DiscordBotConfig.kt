@@ -13,7 +13,7 @@ class DiscordBotConfig {
     @Bean @Singleton @Profile("!no-bot") @DependsOn(CLASSPATH_MODULE_LOADER)
     fun discordClient(discordProperties: DiscordProperties): DisposableDiscordClient {
         val builder = ClientBuilder()
-        builder.withToken(discordProperties.bot!!.token!!)
+        builder.withToken(discordProperties.bot?.token)
 
         return DisposableDiscordClient(builder.login())
     }
