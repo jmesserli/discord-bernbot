@@ -22,7 +22,7 @@ import javax.inject.Inject
 class PrefixCommandParserTest {
     @Inject
     lateinit var parser: PrefixCommandParser
-    @Value("\${discord.bot.prefix}")
+    @Value("\${discord.bot.prefix:.}")
     lateinit var prefix: String
 
     @Test
