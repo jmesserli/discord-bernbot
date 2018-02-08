@@ -8,14 +8,10 @@ import org.slf4j.Logger
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.api.events.IListener
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 import sx.blah.discord.modules.IModule
 
-/**
- * TODO Short summary
- *
- * @author Joel Messerli @23.03.2017
- */
+@Suppress("unused")
 class SpringInjectingPremodule : IModule, IListener<MessageReceivedEvent> {
     companion object {
         private val LOGGER: Logger = getLogger(SpringInjectingPremodule::class)

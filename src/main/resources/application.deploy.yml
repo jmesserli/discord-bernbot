@@ -1,0 +1,7 @@
+discord:
+  api:
+    clientId: "#{DISCORD_API_CLIENT_ID}"
+    clientSecret: "#{DISCORD_API_CLIENT_SECRET}"
+  bot:
+    token: "#{DISCORD_BOT_TOKEN}"
+    prefix: "#{DISCORD_BOT_PREFIX}"

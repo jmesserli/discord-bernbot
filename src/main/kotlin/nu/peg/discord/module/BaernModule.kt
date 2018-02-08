@@ -2,7 +2,7 @@ package nu.peg.discord.module
 
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.api.events.IListener
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 
 /**
  * TODO Short summary

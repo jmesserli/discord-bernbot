@@ -25,14 +25,14 @@ class PrefixCommandParser @Inject constructor(discordProperties: DiscordProperti
         val noPrefix = commandString.substring(prefix.length)
         val firstSpace = noPrefix.indexOfFirst { it == ' ' }
 
-        var commandName = noPrefix.substring(0, if (firstSpace != -1) firstSpace else noPrefix.length)
+        val commandName = noPrefix.substring(0, if (firstSpace != -1) firstSpace else noPrefix.length)
         var args = arrayOf<String>()
         if (firstSpace != -1) {
             args = parsingRegex.findAll(noPrefix, firstSpace).map {
                 val groups = ArrayList(it.groups)
                         .filter { it != null }
                         .map { it!! }
-                        .filterIndexed { i, group -> i > 0 }
+                        .filterIndexed { i, _ -> i > 0 }
                 val group = groups.first()
                 return@map group.value
             }.toList().toTypedArray()
