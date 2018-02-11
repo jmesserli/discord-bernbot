@@ -10,14 +10,10 @@ import java.util.*
  * @author Joel Messerli @20.02.2017
  */
 class BasicCommand(
-        private val name: String,
-        private val args: Array<String>,
-        private val message: IMessage
+        override val name: String,
+        override val args: Array<String>,
+        override val message: IMessage
 ) : Command {
-    override fun getName() = name
-    override fun getArgs() = args
-    override fun getMessage() = message
-
     override fun toString(): String {
         return "BasicCommand(name='$name', args=${Arrays.toString(args)}, message=$message)"
     }

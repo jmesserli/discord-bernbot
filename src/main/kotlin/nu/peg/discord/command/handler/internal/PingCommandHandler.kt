@@ -6,18 +6,13 @@ import org.springframework.stereotype.Component
 import java.time.Duration
 import java.time.LocalDateTime
 
-/**
- * TODO Short summary
- *
- * @author Joel Messerli @23.03.2017
- */
 @Component
 class PingCommandHandler : CommandHandler {
     override fun isAdminCommand() = false
     override fun getNames() = listOf("ping")
 
     override fun handle(command: Command) {
-        val message = command.getMessage()
+        val message = command.message
 
         val now = LocalDateTime.now()
         val duration = Duration.between(message.timestamp, now)

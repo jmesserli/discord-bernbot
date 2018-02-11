@@ -29,24 +29,24 @@ class PrefixCommandParserTest {
     fun parseNoArgCommand() {
         val noArgMessage = makeMessage("${prefix}name")
         val noArgCommand = parser.parse(noArgMessage)!!
-        assertThat(noArgCommand.getName()).isEqualTo("name")
-        assertThat(noArgCommand.getArgs()).isNotNull().isEmpty()
+        assertThat(noArgCommand.name).isEqualTo("name")
+        assertThat(noArgCommand.args).isNotNull().isEmpty()
     }
 
     @Test
     fun parseTwoArgMessageNotQuoted() {
         val twoArgMessage = makeMessage("${prefix}name arg1 arg2")
         val twoArgCommand = parser.parse(twoArgMessage)!!
-        assertThat(twoArgCommand.getName()).isEqualTo("name")
-        assertThat(twoArgCommand.getArgs()).containsExactly("arg1", "arg2")
+        assertThat(twoArgCommand.name).isEqualTo("name")
+        assertThat(twoArgCommand.args).containsExactly("arg1", "arg2")
     }
 
     @Test
     fun parseTwoArgMessageQuoted() {
         val twoArgMessageQuoted = makeMessage("${prefix}name \"arg1 still\" arg2")
         val twoArgCommandQuoted = parser.parse(twoArgMessageQuoted)!!
-        assertThat(twoArgCommandQuoted.getName()).isEqualTo("name")
-        assertThat(twoArgCommandQuoted.getArgs()).containsExactly("arg1 still", "arg2")
+        assertThat(twoArgCommandQuoted.name).isEqualTo("name")
+        assertThat(twoArgCommandQuoted.args).containsExactly("arg1 still", "arg2")
     }
 
     fun makeMessage(content: String): IMessage {

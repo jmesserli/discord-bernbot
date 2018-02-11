@@ -10,12 +10,12 @@ class SwapChannelCommandHandler : CommandHandler {
     override fun getNames() = listOf("sc", "swapchannel")
 
     override fun handle(command: Command) {
-        val message = command.getMessage()
+        val message = command.message
         val channel = message.channel
 
-        val args = command.getArgs()
+        val args = command.args
         if (args.isEmpty()) {
-            channel.sendMessage("Usage: ${command.getName()} <channel name>")
+            channel.sendMessage("Usage: ${command.name} <channel name>")
             return
         }
 

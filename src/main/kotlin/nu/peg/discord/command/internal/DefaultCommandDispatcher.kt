@@ -21,9 +21,9 @@ class DefaultCommandDispatcher @Inject constructor(private val handlers: List<Co
     }
 
     override fun dispatch(command: Command) {
-        val userIsAdmin = command.getMessage().authorIsAdmin()
+        val userIsAdmin = command.message.authorIsAdmin()
         for (handler in handlers) {
-            val applicable = (!handler.isAdminCommand() || userIsAdmin) && handler.getNames().containsIgnoreCase(command.getName())
+            val applicable = (!handler.isAdminCommand() || userIsAdmin) && handler.getNames().containsIgnoreCase(command.name)
             LOGGER.debug("Trying $handler for command $command (isApplicable: $applicable)")
 
             if (applicable) {

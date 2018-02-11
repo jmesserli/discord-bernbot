@@ -2,6 +2,7 @@ package nu.peg.discord.module.internal
 
 import nu.peg.discord.command.CommandDispatcher
 import nu.peg.discord.command.CommandParser
+import nu.peg.discord.command.handler.internal.KeepOutEventHandler
 import nu.peg.discord.module.BaernModule
 import nu.peg.discord.util.getLogger
 import org.springframework.beans.factory.annotation.Value
@@ -9,6 +10,7 @@ import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.api.events.EventSubscriber
 import sx.blah.discord.handle.impl.events.ReadyEvent
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelEvent
 import javax.inject.Inject
 
 class BaernBotModule
@@ -43,5 +45,10 @@ class BaernBotModule
     @EventSubscriber
     fun handleReadyEvent(event: ReadyEvent) {
         client.online("BärnBot v$version")
+    }
+
+    @EventSubscriber
+    fun handleUserVoiceChannelEvent(event: UserVoiceChannelEvent) {
+        KeepOutEventHandler.handleEvent(event)
     }
 }

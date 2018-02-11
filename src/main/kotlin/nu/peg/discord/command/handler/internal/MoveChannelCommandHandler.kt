@@ -4,38 +4,33 @@ import nu.peg.discord.command.Command
 import nu.peg.discord.command.handler.CommandHandler
 import org.springframework.stereotype.Component
 
-/**
- * TODO Short summary
- *
- * @author Joel Messerli @23.03.2017
- */
 @Component
 class MoveChannelCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("mc", "movechannel")
 
     override fun handle(command: Command) {
-        val message = command.getMessage()
+        val message = command.message
         val channel = message.channel
 
-        val args = command.getArgs()
+        val args = command.args
         if (args.isEmpty()) {
-            channel.sendMessage("Usage: ${command.getName()} <channel name>")
+            channel.sendMessage("Usage: ${command.name} <channel name>")
             return
         }
 
         val messageGuild = message.guild
+        val requesterChannel = message.author.voiceStates[messageGuild.longID].channel
+        if (requesterChannel == null) {
+            channel.sendMessage("You must be in a voice channel to perform this command")
+            return
+        }
+
         val channelName = args.joinToString(" ")
         val foundChannel = messageGuild.voiceChannels.firstOrNull { it.name.startsWith(channelName, true) }
 
         if (foundChannel == null) {
             channel.sendMessage("Found no channel for input <$channelName>")
-            return
-        }
-
-        val requesterChannel = message.author.voiceStates[messageGuild.longID].channel
-        if (requesterChannel == null) {
-            channel.sendMessage("You must be in a voice channel to perform this command")
             return
         }
 

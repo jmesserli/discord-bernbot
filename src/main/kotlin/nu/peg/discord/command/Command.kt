@@ -8,7 +8,7 @@ import sx.blah.discord.handle.obj.IMessage
  * @author Joel Messerli @15.02.2017
  */
 interface Command {
-    fun getName(): String
-    fun getArgs(): Array<String>
-    fun getMessage(): IMessage
+    val name: String
+    val args: Array<String>
+    val message: IMessage
 }

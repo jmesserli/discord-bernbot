@@ -3,7 +3,7 @@ buildscript {
         kotlinVersion = '1.2.21'
         springBootVersion = '1.5.10.RELEASE'
 
-        botVersion = '0.1'
+        botVersion = '0.2'
 
         if (System.getenv('JENKINS_URL') != null && System.getenv('BUILD_NUMBER') != null) {
             branch = System.getenv('BRANCH_NAME').replaceAll(/[^0-9A-Za-z-]+/, '-')
