@@ -6,3 +6,7 @@ discord:
     token: "#{DISCORD_BOT_TOKEN}"
     prefix: "#{DISCORD_BOT_PREFIX}"
     version: "#{Octopus.Release.Number}"
+    auditChannel: "#{DISCORD_AUDIT_CHANNEL}"
+logging.level:
+  sx.blah.discord: debug
+  nu.peg.discord: debug
