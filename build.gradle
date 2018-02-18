@@ -2,8 +2,9 @@ buildscript {
     ext {
         kotlinVersion = '1.2.21'
         springBootVersion = '1.5.10.RELEASE'
+        springCloudVersion = 'Edgware.SR2'
 
-        botVersion = '0.2'
+        projectVersion = new File("$projectDir/VERSION").text
 
         if (System.getenv('JENKINS_URL') != null && System.getenv('BUILD_NUMBER') != null) {
             branch = System.getenv('BRANCH_NAME').replaceAll(/[^0-9A-Za-z-]+/, '-')
@@ -11,61 +12,9 @@ buildscript {
             if (branch == 'master') {
                 branch_suffix = ""
             }
-            botVersion = botVersion + '.' + System.getenv('BUILD_NUMBER') + branch_suffix
+            projectVersion = projectVersion + '.' + System.getenv('BUILD_NUMBER') + branch_suffix
+        } else {
+            projectVersion = projectVersion + '-SNAPSHOT'
         }
     }
-    repositories {
-        maven { url 'https://pkg.pegnu.cloud/repository/m2' }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-    }
-}
-
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'org.springframework.boot'
-
-jar {
-    baseName = 'baern-bot'
-    version = botVersion
-}
-
-test {
-    reports {
-        junitXml.enabled = true
-    }
-}
-
-task configurationZip(type: Zip) {
-    archiveName = 'bernbot-configuration.' + botVersion + '.zip'
-    from(fileTree(dir: 'src/main/resources').include('*.deploy.yml'))
-}
-
-sourceCompatibility = 1.8
-
-repositories {
-    maven { url 'https://pkg.pegnu.cloud/repository/m2' }
-}
-
-dependencies {
-    compile('org.springframework.boot:spring-boot-starter-cache')
-    compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
-    compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-
-    compile 'javax.inject:javax.inject:1'
-    compile 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
-    testCompile 'org.assertj:assertj-core:3.9.0'
-
-    // Metadata for configuration properties
-    compile "org.springframework.boot:spring-boot-configuration-processor"
-    kapt "org.springframework.boot:spring-boot-configuration-processor"
-
-    // JitPack Repositories (cached by Nexus for 1d)
-    compile('com.github.austinv11:Discord4j:2.9.3')
-    compile('com.github.Discord4J-Addons:Discord4K:3ed1688')
 }
