@@ -14,8 +14,8 @@ object StaticAppContext : ApplicationContextAware {
 
     lateinit var context: ApplicationContext
 
-    override fun setApplicationContext(applicationContext: ApplicationContext?) {
-        context = applicationContext!!
+    override fun setApplicationContext(applicationContext: ApplicationContext) {
+        context = applicationContext
         LOGGER.info("ApplicationContext injected")
     }
 }
