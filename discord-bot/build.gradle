@@ -16,7 +16,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-jar {
+bootJar {
     baseName = 'bernbot-bot'
     version = projectVersion
 }
