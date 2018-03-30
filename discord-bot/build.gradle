@@ -53,8 +53,6 @@ repositories {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-cache')
-    compile('org.springframework.cloud:spring-cloud-starter-sleuth')
-    compile('org.springframework.cloud:spring-cloud-starter-zipkin')
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -69,10 +67,4 @@ dependencies {
     // JitPack Repositories (cached by Nexus for 1d)
     compile('com.github.austinv11:Discord4j:2.9.3')
     compile('com.github.Discord4J-Addons:Discord4K:3ed1688')
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
 }
