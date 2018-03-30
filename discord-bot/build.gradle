@@ -14,6 +14,7 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'bernbot-bot'
@@ -60,7 +61,6 @@ dependencies {
 
     compile 'javax.inject:javax.inject:1'
     compile 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
-    testCompile 'org.assertj:assertj-core:3.9.0'
 
     // Metadata for configuration properties
     compile "org.springframework.boot:spring-boot-configuration-processor"

@@ -6,6 +6,8 @@ import nu.peg.discord.command.CommandParser
 import nu.peg.discord.command.handler.internal.KeepOutEventHandler
 import nu.peg.discord.config.StaticDiscordClient
 import nu.peg.discord.module.BaernModule
+import nu.peg.discord.service.OnlineStatus
+import nu.peg.discord.service.StatusService
 import nu.peg.discord.util.getLogger
 import org.springframework.beans.factory.annotation.Value
 import sx.blah.discord.api.IDiscordClient
@@ -22,7 +24,8 @@ class BaernBotModule
         private val dispatcher: CommandDispatcher,
         @Value("\${discord.bot.version:}")
         private val version: String,
-        private val auditInfoLogger: AuditInfoLogger
+        private val auditInfoLogger: AuditInfoLogger,
+        private val statusService: StatusService
 ) : BaernModule {
     companion object {
         private val LOGGER = getLogger(BaernBotModule::class)
@@ -50,7 +53,7 @@ class BaernBotModule
 
     @EventSubscriber
     fun handleReadyEvent(event: ReadyEvent) {
-        client.online("BärnBot v$version")
+        statusService.setStatus(OnlineStatus.ONLINE, "BärnBot v$version")
         ready = true
     }
 
