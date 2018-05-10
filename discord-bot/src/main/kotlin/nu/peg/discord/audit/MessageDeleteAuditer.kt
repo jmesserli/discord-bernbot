@@ -34,7 +34,7 @@ class MessageDeleteAuditer @Inject constructor(
         val message: IMessage? = event.message
 
         if (message == null) {
-            auditService.log(AuditEventEmbed(Color.RED, "Deleted Message", "Deleted message with id ${event.messageID} (not cached)"))
+            auditService.log(AuditEventEmbed(Color.RED, "❌ Deleted Message", "Deleted message with id ${event.messageID} (not cached)"))
             return
         }
 

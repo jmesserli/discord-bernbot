@@ -17,7 +17,6 @@ class DefaultAuditService @Inject constructor(
         private val properties: DiscordProperties
 ) : AuditService, DiscordClientListener {
     companion object {
-
         private val LOGGER = getLogger(DefaultAuditService::class)
     }
 
