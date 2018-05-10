@@ -6,4 +6,7 @@ classes/
 .idea/
 *.iml
 
+.classpath
+.project
+.settings/
 application.yml
