@@ -7,6 +7,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageDeleteEve
 import sx.blah.discord.handle.obj.IGuild
 import sx.blah.discord.handle.obj.IMessage
 import sx.blah.discord.handle.obj.IUser
+import java.awt.Color
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -33,17 +34,15 @@ class MessageDeleteAuditer @Inject constructor(
         val message: IMessage? = event.message
 
         if (message == null) {
-            auditService.log("Deleted message with id ${event.messageID} (not cached)")
+            auditService.log(AuditEventEmbed(Color.RED, "Deleted Message", "Deleted message with id ${event.messageID} (not cached)"))
             return
         }
 
-        auditService.log("""
-        |Deleted message:
-        |${message.content}
-        |by ${getUserName(message.author, message.guild)}
-        |in channel ${message.channel.name}
-        |created at ${message.timestamp.format(DATE_TIME_FORMATTER)}
-        """.trimMargin())
+        auditService.log(AuditEventEmbed(Color.RED, "Deleted Message", message.content, mapOf(
+                "Author" to getUserName(message.author, message.guild),
+                "Channel" to message.channel.name,
+                "Creation Time" to message.timestamp.format(DATE_TIME_FORMATTER)
+        )))
     }
 
     override fun getEventClass() = MessageDeleteEvent::class
