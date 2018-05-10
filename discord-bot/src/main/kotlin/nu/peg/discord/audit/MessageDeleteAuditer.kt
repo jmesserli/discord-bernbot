@@ -41,6 +41,7 @@ class MessageDeleteAuditer @Inject constructor(
         |Deleted message:
         |${message.content}
         |by ${getUserName(message.author, message.guild)}
+        |in channel ${message.channel.name}
         |created at ${message.timestamp.format(DATE_TIME_FORMATTER)}
         """.trimMargin())
     }

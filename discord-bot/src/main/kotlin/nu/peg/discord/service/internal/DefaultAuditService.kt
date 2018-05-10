@@ -3,7 +3,7 @@ package nu.peg.discord.service.internal
 import nu.peg.discord.config.DiscordProperties
 import nu.peg.discord.service.AuditService
 import nu.peg.discord.util.DiscordClientListener
-import org.slf4j.LoggerFactory
+import nu.peg.discord.util.getLogger
 import org.springframework.stereotype.Service
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.handle.obj.IChannel
@@ -14,7 +14,7 @@ class DefaultAuditService @Inject constructor(
         private val properties: DiscordProperties
 ) : AuditService, DiscordClientListener {
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(DefaultAuditService::class.java)
+        private val LOGGER = getLogger(DefaultAuditService::class)
     }
 
     private var discordClient: IDiscordClient? = null
