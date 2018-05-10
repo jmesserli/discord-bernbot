@@ -1,10 +1,10 @@
 package nu.peg.discord.module.internal
 
-import nu.peg.discord.audit.AuditInfoLogger
 import nu.peg.discord.command.CommandDispatcher
 import nu.peg.discord.command.CommandParser
 import nu.peg.discord.command.handler.internal.KeepOutEventHandler
 import nu.peg.discord.config.StaticDiscordClient
+import nu.peg.discord.event.EventListenerDispatcher
 import nu.peg.discord.module.BaernModule
 import nu.peg.discord.service.OnlineStatus
 import nu.peg.discord.service.StatusService
@@ -24,8 +24,8 @@ class BaernBotModule
         private val dispatcher: CommandDispatcher,
         @Value("\${discord.bot.version:}")
         private val version: String,
-        private val auditInfoLogger: AuditInfoLogger,
-        private val statusService: StatusService
+        private val statusService: StatusService,
+        private val eventListenerDispatcher: EventListenerDispatcher
 ) : BaernModule {
     companion object {
         private val LOGGER = getLogger(BaernBotModule::class)
@@ -65,6 +65,7 @@ class BaernBotModule
     @EventSubscriber
     fun handleAllEvents(event: Event) {
         if (!ready) return
-        auditInfoLogger.logEvent(event)
+
+        eventListenerDispatcher.dispatch(event)
     }
 }

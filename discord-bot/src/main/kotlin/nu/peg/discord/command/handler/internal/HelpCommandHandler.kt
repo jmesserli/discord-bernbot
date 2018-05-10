@@ -9,11 +9,8 @@ import javax.inject.Inject
 class HelpCommandHandler : CommandHandler {
     @Inject
     private lateinit var commands: List<CommandHandler>
-
     override fun isAdminCommand() = false
-
     override fun getNames() = listOf("help", "h", "?", "commands")
-
     override fun getDescription() = "Shows a list of commands"
 
     override fun handle(command: Command) {

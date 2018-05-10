@@ -19,7 +19,8 @@ class DiscordBotConfig {
     @DependsOn(CLASSPATH_MODULE_LOADER)
     fun discordClient(discordProperties: DiscordProperties): DisposableDiscordClient {
         val builder = ClientBuilder()
-        builder.withToken(discordProperties.bot?.token)
+                .withToken(discordProperties.bot?.token)
+                .setMaxMessageCacheCount(512)
 
         return DisposableDiscordClient(builder.login())
     }
