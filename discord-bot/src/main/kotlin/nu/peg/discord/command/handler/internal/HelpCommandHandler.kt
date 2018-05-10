@@ -14,13 +14,21 @@ class HelpCommandHandler : CommandHandler {
 
     override fun getNames() = listOf("help", "h", "?", "commands")
 
+    override fun getDescription() = "Shows a list of commands"
+
     override fun handle(command: Command) {
         val commandString = commands
                 .sortedBy { it.getNames().sortedByDescending { it.length }.first() }
                 .sortedBy { it.isAdminCommand() }
-                .map { "${it.getNames().joinToString(", ")} ${if (it.isAdminCommand()) "(Admin only)" else ""}" }
+                .map {
+                    """
+                    |${it.getNames().joinToString(", ")}:
+                    |${it.getDescription()}
+                    |${if (it.isAdminCommand()) "(Admin only)\n" else ""}
+                    """.trimMargin()
+                }
                 .joinToString("\n")
 
-        command.message.reply("Commands:\n" + commandString)
+        command.message.reply("Commands:\n$commandString")
     }
 }

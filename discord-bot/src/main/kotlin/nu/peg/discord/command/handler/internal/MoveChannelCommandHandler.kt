@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 class MoveChannelCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("mc", "movechannel")
+    override fun getDescription() = "Moves all users in the current channel to another one"
 
     override fun handle(command: Command) {
         val message = command.message

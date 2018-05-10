@@ -10,5 +10,6 @@ import nu.peg.discord.command.Command
 interface CommandHandler {
     fun isAdminCommand(): Boolean
     fun getNames(): List<String>
+    fun getDescription(): String
     fun handle(command: Command)
 }

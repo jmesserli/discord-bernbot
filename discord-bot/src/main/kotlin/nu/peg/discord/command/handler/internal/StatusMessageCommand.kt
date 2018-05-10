@@ -13,6 +13,7 @@ class StatusMessageCommand @Inject constructor(
 ) : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("sm", "statusmessage")
+    override fun getDescription() = "Sets the bot's status and message"
 
     override fun handle(command: Command) {
         val args = command.args

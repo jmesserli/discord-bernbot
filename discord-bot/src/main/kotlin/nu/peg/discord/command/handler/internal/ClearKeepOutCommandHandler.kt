@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 class ClearKeepOutCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("cko", "clearkeepout")
+    override fun getDescription() = "Clear all \"keepouts\" (voice channel bans)"
 
     override fun handle(command: Command) {
         KeepOutEventHandler.clearBans()

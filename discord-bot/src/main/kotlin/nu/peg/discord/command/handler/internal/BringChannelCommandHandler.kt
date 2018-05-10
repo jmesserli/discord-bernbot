@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 class BringChannelCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("bc", "bringchannel")
+    override fun getDescription() = "Brings users from another channel to the current one"
 
     override fun handle(command: Command) {
         val message = command.message

@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter
 class KeepOutCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("ko", "keepout")
+    override fun getDescription() = "Keep a user out of the current channel for a period"
 
     override fun handle(command: Command) {
         val channel = command.message.channel

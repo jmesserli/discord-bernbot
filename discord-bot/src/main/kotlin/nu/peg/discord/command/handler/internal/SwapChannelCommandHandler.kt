@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 class SwapChannelCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("sc", "swapchannel")
+    override fun getDescription() = "Swaps the users of the current and another channel"
 
     override fun handle(command: Command) {
         val message = command.message
