@@ -38,7 +38,7 @@ class MessageDeleteAuditer @Inject constructor(
             return
         }
 
-        auditService.log(AuditEventEmbed(Color.RED, "Deleted Message", message.content, mapOf(
+        auditService.log(AuditEventEmbed(Color.RED, "❌ Deleted Message", message.content, mapOf(
                 "Author" to getUserName(message.author, message.guild),
                 "Channel" to message.channel.name,
                 "Creation Time" to message.timestamp.format(DATE_TIME_FORMATTER)

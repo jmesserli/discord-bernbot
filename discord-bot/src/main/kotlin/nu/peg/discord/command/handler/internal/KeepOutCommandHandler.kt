@@ -1,12 +1,12 @@
 package nu.peg.discord.command.handler.internal
 
 import nu.peg.discord.command.Command
-import nu.peg.discord.command.handler.CommandHandler
 import org.springframework.stereotype.Component
 import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelEvent
 import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelJoinEvent
 import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelMoveEvent
 import sx.blah.discord.handle.obj.IChannel
+import sx.blah.discord.handle.obj.IMessage
 import sx.blah.discord.handle.obj.IUser
 import sx.blah.discord.handle.obj.IVoiceChannel
 import java.time.Duration
@@ -14,23 +14,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Component
-class KeepOutCommandHandler : CommandHandler {
+class KeepOutCommandHandler : AbstractVoiceChannelCommandHandler(false) {
     override fun isAdminCommand() = true
+
     override fun getNames() = listOf("ko", "keepout")
     override fun getDescription() = "Keep a user out of the current channel for a period"
-
-    override fun handle(command: Command) {
-        val channel = command.message.channel
-        if (command.args.size < 2) {
-            sendUsage(channel)
-        }
-
-        val senderVoiceState = command.message.author.voiceStates[channel.guild.longID]
-        if (senderVoiceState == null) {
-            channel.sendMessage("You must be in a voice channel to perform this command")
-            return
-        }
-        val keepOutOfChannel = senderVoiceState.channel
+    override fun handle(command: Command, message: IMessage, userChannel: IVoiceChannel, targetChannel: IVoiceChannel?) {
+        val channel = message.channel
 
         val targetUserArg = command.args[0]
         val targetUser = command.message.guild.users.firstOrNull { it.name.contains(targetUserArg, ignoreCase = true) }
@@ -57,12 +47,8 @@ class KeepOutCommandHandler : CommandHandler {
             return
         }
 
-        KeepOutEventHandler.addUserChannelBan(targetUser, ChannelDuration(keepOutOfChannel, endTime))
-        channel.sendMessage("Keeping user ${targetUser.getDisplayName(channel.guild)} out of ${keepOutOfChannel.name} until ${endTime.format(dateFormat)}")
-    }
-
-    private fun sendUsage(channel: IChannel) {
-        channel.sendMessage("Usage: ${getNames().first()} <username> <ISO8601 duration>")
+        KeepOutEventHandler.addUserChannelBan(targetUser, ChannelDuration(userChannel, endTime))
+        channel.sendMessage("Keeping user ${targetUser.getDisplayName(channel.guild)} out of ${userChannel.name} until ${endTime.format(dateFormat)}")
     }
 }
 

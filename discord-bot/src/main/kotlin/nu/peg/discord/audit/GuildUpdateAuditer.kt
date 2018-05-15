@@ -1,6 +1,7 @@
 package nu.peg.discord.audit
 
 import nu.peg.discord.event.EventListener
+import nu.peg.discord.message.EmbedColors
 import nu.peg.discord.service.AuditService
 import org.springframework.stereotype.Component
 import sx.blah.discord.handle.impl.events.guild.GuildUpdateEvent
@@ -21,7 +22,7 @@ class GuildUpdateAuditer @Inject constructor(
         val oldRegion = event.oldGuild.region
         val newRegion = event.newGuild.region
 
-        auditService.log(AuditEventEmbed(AuditColors.LIGHT_BLUE, "🌍 Server Region Changed", "The server's voice region has changed", mapOf(
+        auditService.log(AuditEventEmbed(EmbedColors.LIGHT_BLUE, "🌍 Server Region Changed", "The server's voice region has changed", mapOf(
                 "Old Region" to formatRegion(oldRegion),
                 "New Region" to formatRegion(newRegion)
         )))

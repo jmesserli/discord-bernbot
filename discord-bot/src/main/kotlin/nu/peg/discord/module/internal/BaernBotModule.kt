@@ -24,6 +24,8 @@ class BaernBotModule
         private val dispatcher: CommandDispatcher,
         @Value("\${discord.bot.version:}")
         private val version: String,
+        @Value("\${discord.bot.prefix:.}")
+        private val commandPrefix: String,
         private val statusService: StatusService,
         private val eventListenerDispatcher: EventListenerDispatcher
 ) : BaernModule {
@@ -53,7 +55,7 @@ class BaernBotModule
 
     @EventSubscriber
     fun handleReadyEvent(event: ReadyEvent) {
-        statusService.setStatus(OnlineStatus.ONLINE, "BärnBot v$version")
+        statusService.setStatus(OnlineStatus.ONLINE, "BärnBot v$version | $commandPrefix?")
         ready = true
     }
 

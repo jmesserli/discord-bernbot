@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 class PingCommandHandler : CommandHandler {
     override fun isAdminCommand() = false
     override fun getNames() = listOf("ping")
-    override fun getDescription() = "Replies pong"
+    override fun getDescription() = "🏓 Replies pong"
 
     override fun handle(command: Command) {
         val message = command.message
