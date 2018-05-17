@@ -78,12 +78,29 @@ class DefaultAudioService : AudioService, DiscordClientListener {
                         return
                     }
                     Thread.sleep(500)
-                } while (true)
+                } while (!interrupted())
             }
         }
 
         guildLeaveThreads[guild] = thread
         thread.start()
         LOGGER.debug("Started watching audio player for guild ${guild.name} for leaving")
+    }
+
+    override fun forceLeave(guild: IGuild) {
+        if (guildJoined[guild] != true) {
+            LOGGER.debug("Bot has not joined guild ${guild.name}, not leaving")
+            return
+        }
+        guildJoined[guild] = false
+
+        guildLeaveThreads[guild]?.interrupt()
+        guildLeaveThreads.remove(guild)
+
+        guild.connectedVoiceChannel?.leave()
+    }
+
+    override fun forceLeaveAll() {
+        guildJoined.filter { it.value }.map { it.key }.forEach(this::forceLeave)
     }
 }

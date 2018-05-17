@@ -9,7 +9,7 @@ open class BasicEmbed(
         private val color: Color,
         private val content: String,
         private val title: String,
-        private val fields: Map<String, String>?,
+        private val fields: Map<String, String>? = null,
         private val footer: IEmbed.IEmbedFooter? = null,
         private val timestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
         private val author: IEmbed.IEmbedAuthor? = null,

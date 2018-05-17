@@ -8,4 +8,6 @@ interface AudioService {
     fun joinVoice(channel: IVoiceChannel)
     fun queueAudio(guild: IGuild, audio: URL)
     fun queueLeaveOnFinished(guild: IGuild)
+    fun forceLeave(guild: IGuild)
+    fun forceLeaveAll()
 }
