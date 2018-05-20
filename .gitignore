@@ -6,7 +6,10 @@ classes/
 .idea/
 *.iml
 
+bin/
 .classpath
 .project
 .settings/
+
 application.yml
+!**/test/resources/application.yml

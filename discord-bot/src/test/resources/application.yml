@@ -1,0 +1,6 @@
+discord:
+  polr:
+    api-key: "what"
+    base-url: "https://what.ch"
+  bot:
+    prefix: "."
