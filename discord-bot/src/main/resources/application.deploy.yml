@@ -7,6 +7,9 @@ discord:
     prefix: "#{DISCORD_BOT_PREFIX}"
     version: "#{Octopus.Release.Number}"
     auditChannel: "#{DISCORD_AUDIT_CHANNEL}"
+  polr:
+    base-url: "#{POLR_BASE_URL}"
+    api-key: "#{POLR_API_KEY}"
 logging.level:
   sx.blah.discord: debug
   nu.peg.discord: debug
