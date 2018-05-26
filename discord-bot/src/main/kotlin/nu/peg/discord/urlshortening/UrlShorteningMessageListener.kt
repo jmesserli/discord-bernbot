@@ -21,7 +21,7 @@ class UrlShorteningMessageListener @Inject constructor(
         private val sendService: MessageSendService
 ) : EventListener<MessageReceivedEvent> {
     companion object {
-        private val URL_REGEX_STR = "^(?:(?:https?|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?!(?:10|127)(?:\\.\\d{1,3}){3})(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))\\.?)(?::\\d{2,5})?(?:[/?#]\\S*)?$"
+        private val URL_REGEX_STR = "^\\. (?:(?:https?|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?!(?:10|127)(?:\\.\\d{1,3}){3})(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))\\.?)(?::\\d{2,5})?(?:[/?#]\\S*)?$"
         private val URL_REGEX = Regex(URL_REGEX_STR, RegexOption.IGNORE_CASE)
 
         private val IMAGE_SUFFIX_LIST = listOf("jpg", "jpeg", "png", "gif")
@@ -33,10 +33,12 @@ class UrlShorteningMessageListener @Inject constructor(
     override fun onEvent(event: MessageReceivedEvent) {
         val messageContent = event.message.content
         if (messageContent.length < 40 || URL_REGEX.matchEntire(messageContent) == null) return
-        val url = URL(messageContent)
+
+        val urlString = messageContent.substring(2)
+        val url = URL(urlString)
         if (VIDEO_DOMAINS.containsIgnoreCase(normalizeHostname(url))) return
 
-        val shortened = linkShortenerService.shorten(messageContent) ?: return
+        val shortened = linkShortenerService.shorten(urlString) ?: return
 
         val authorDisplayName = event.message.author.getDisplayName(event.message.guild)
         sendService.send(event.message.channel, BasicEmbed(EmbedColors.LIGHT_BLUE,
