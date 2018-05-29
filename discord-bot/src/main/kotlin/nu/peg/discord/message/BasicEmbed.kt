@@ -10,7 +10,7 @@ open class BasicEmbed(
         private val content: String,
         private val title: String,
         private val fields: Map<String, String>? = null,
-        private val footer: IEmbed.IEmbedFooter? = null,
+        private var footer: IEmbed.IEmbedFooter? = null,
         private val timestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
         private val author: IEmbed.IEmbedAuthor? = null,
         private val thumbnail: IEmbed.IEmbedImage? = null,
@@ -42,5 +42,13 @@ open class BasicEmbed(
                 override fun getValue() = it.value
             }
         }.toMutableList()
+    }
+
+    fun withHelpFooter(): BasicEmbed {
+        footer = object : IEmbed.IEmbedFooter {
+            override fun getText() = "Help"
+            override fun getIconUrl() = "https://cdn.peg.nu/files/resources/icons/material_help.png"
+        }
+        return this
     }
 }

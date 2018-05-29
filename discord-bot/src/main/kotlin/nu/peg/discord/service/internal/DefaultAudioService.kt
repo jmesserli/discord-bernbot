@@ -18,7 +18,7 @@ class DefaultAudioService : AudioService, DiscordClientListener {
 
     private lateinit var discordClient: IDiscordClient
 
-    private val guildJoined: MutableMap<IGuild, Boolean> = mutableMapOf()
+    private val joinedGuilds: MutableSet<IGuild> = mutableSetOf()
     private val guildLeaveThreads: MutableMap<IGuild, Thread> = mutableMapOf()
 
     override fun discordClientAvailable(client: IDiscordClient) {
@@ -26,18 +26,19 @@ class DefaultAudioService : AudioService, DiscordClientListener {
     }
 
     override fun joinVoice(channel: IVoiceChannel) {
-        if (guildJoined[channel.guild] == true) {
-            LOGGER.info("Not joining voice channel ${channel.name} on ${channel.guild.name} because the bot has already joined a channel on this guild")
+        val guild = channel.guild
+
+        if (!joinedGuilds.add(guild)) {
+            LOGGER.info("Not joining voice channel ${channel.name} on ${guild.name} because the bot has already joined a channel on this guild")
             return
         }
 
+        LOGGER.debug("Joined channel ${channel.name} on ${guild.name}")
         channel.join()
-        guildJoined[channel.guild] = true
-        LOGGER.debug("Joined channel ${channel.name} on ${channel.guild.name}")
     }
 
     override fun queueAudio(guild: IGuild, audio: URL) {
-        if (guildJoined[guild] != true) {
+        if (guild !in joinedGuilds) {
             LOGGER.info("Join a channel before queueing audio")
             return
         }
@@ -48,7 +49,7 @@ class DefaultAudioService : AudioService, DiscordClientListener {
     }
 
     override fun queueLeaveOnFinished(guild: IGuild) {
-        if (guildJoined[guild] != true) {
+        if (guild !in joinedGuilds) {
             LOGGER.info("Guild ${guild.name} is not joined")
             return
         }
@@ -73,7 +74,7 @@ class DefaultAudioService : AudioService, DiscordClientListener {
                         LOGGER.debug("Player for guild ${guild.name} has stopped playing, leaving channel")
 
                         guild.connectedVoiceChannel?.leave()
-                        guildJoined[guild] = false
+                        joinedGuilds.remove(guild)
                         guildLeaveThreads.remove(guild)
                         return
                     }
@@ -88,12 +89,12 @@ class DefaultAudioService : AudioService, DiscordClientListener {
     }
 
     override fun forceLeave(guild: IGuild) {
-        if (guildJoined[guild] != true) {
+        if (guild !in joinedGuilds) {
             LOGGER.debug("Bot has not joined guild ${guild.name}, not leaving")
             return
         }
-        guildJoined[guild] = false
 
+        joinedGuilds.remove(guild)
         guildLeaveThreads[guild]?.interrupt()
         guildLeaveThreads.remove(guild)
 
@@ -101,6 +102,6 @@ class DefaultAudioService : AudioService, DiscordClientListener {
     }
 
     override fun forceLeaveAll() {
-        guildJoined.filter { it.value }.map { it.key }.forEach(this::forceLeave)
+        joinedGuilds.forEach(this::forceLeave)
     }
 }

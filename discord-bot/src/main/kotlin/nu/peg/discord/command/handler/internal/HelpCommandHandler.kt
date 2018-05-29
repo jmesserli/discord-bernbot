@@ -6,7 +6,6 @@ import nu.peg.discord.message.BasicEmbed
 import nu.peg.discord.message.EmbedColors
 import nu.peg.discord.service.MessageSendService
 import org.springframework.stereotype.Component
-import sx.blah.discord.handle.obj.IEmbed
 import javax.inject.Inject
 
 @Component
@@ -29,12 +28,7 @@ class HelpCommandHandler @Inject constructor(
                     fields.put("${it.getNames().joinToString(", ")}${getAdminString(it)}", it.getDescription())
                 }
 
-        val embed = BasicEmbed(EmbedColors.LIGHT_BLUE, "List of all available commands:", "Command list", fields,
-                footer = object : IEmbed.IEmbedFooter {
-                    override fun getText() = "Help"
-                    override fun getIconUrl() = "https://cdn.peg.nu/files/resources/icons/material_help.png"
-                }
-        )
+        val embed = BasicEmbed(EmbedColors.LIGHT_BLUE, "List of all available commands:", "Command list", fields).withHelpFooter()
 
         messageSendService.send(command.message.channel, embed)
     }
