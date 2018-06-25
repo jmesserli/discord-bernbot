@@ -3,6 +3,7 @@ package nu.peg.discord.module.internal
 import nu.peg.discord.command.CommandDispatcher
 import nu.peg.discord.command.CommandParser
 import nu.peg.discord.command.handler.internal.KeepOutEventHandler
+import nu.peg.discord.config.DiscordClientListenerInjector
 import nu.peg.discord.config.StaticDiscordClient
 import nu.peg.discord.event.EventListenerDispatcher
 import nu.peg.discord.module.BaernModule
@@ -27,7 +28,8 @@ class BaernBotModule
         @Value("\${discord.bot.prefix:.}")
         private val commandPrefix: String,
         private val statusService: StatusService,
-        private val eventListenerDispatcher: EventListenerDispatcher
+        private val eventListenerDispatcher: EventListenerDispatcher,
+        private val clientListenerInjector: DiscordClientListenerInjector
 ) : BaernModule {
     companion object {
         private val LOGGER = getLogger(BaernBotModule::class)
@@ -57,6 +59,8 @@ class BaernBotModule
     fun handleReadyEvent(event: ReadyEvent) {
         statusService.setStatus(OnlineStatus.ONLINE, "BärnBot v$version | $commandPrefix?")
         ready = true
+
+        clientListenerInjector.injectListeners()
     }
 
     @EventSubscriber
