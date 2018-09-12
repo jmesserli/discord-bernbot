@@ -21,6 +21,8 @@ class DefaultCommandDispatcher @Inject constructor(private val handlers: List<Co
     }
 
     override fun dispatch(command: Command) {
+        if (command.message.author.isBot) return;
+
         val userIsAdmin = command.message.authorIsAdmin()
         for (handler in handlers) {
             val applicable = (!handler.isAdminCommand() || userIsAdmin) && handler.getNames().containsIgnoreCase(command.name)
