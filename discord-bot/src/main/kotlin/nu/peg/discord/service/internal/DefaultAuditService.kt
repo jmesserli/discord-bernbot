@@ -4,10 +4,8 @@ import nu.peg.discord.audit.AuditEventEmbed
 import nu.peg.discord.config.DiscordProperties
 import nu.peg.discord.service.AuditService
 import nu.peg.discord.service.MessageSendService
-import nu.peg.discord.util.DiscordClientListener
 import nu.peg.discord.util.getLogger
 import org.springframework.stereotype.Service
-import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.handle.obj.IChannel
 import java.awt.Color
 import javax.inject.Inject
@@ -15,15 +13,16 @@ import javax.inject.Inject
 @Service
 class DefaultAuditService @Inject constructor(
         private val properties: DiscordProperties,
-        private val messageSendService: MessageSendService
-) : AuditService, DiscordClientListener {
+        private val messageSendService: MessageSendService,
+        private val channelService: DefaultChannelService
+) : AuditService {
     companion object {
         private val LOGGER = getLogger(DefaultAuditService::class)
     }
 
-    private var auditChannel: IChannel? = null
-    override fun discordClientAvailable(client: IDiscordClient) {
-        auditChannel = client.channels?.firstOrNull { it.name == properties.bot?.auditChannel }
+    private val auditChannel: IChannel? by lazy {
+        if (properties.bot == null || properties.bot!!.auditChannel == null) null
+        else channelService.findByName(properties.bot!!.auditChannel!!)
     }
 
     override fun log(message: String) {

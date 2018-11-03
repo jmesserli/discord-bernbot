@@ -2,8 +2,9 @@ package nu.peg.discord.message
 
 import sx.blah.discord.handle.obj.IEmbed
 import java.awt.Color
+import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.ZoneId
 
 open class BasicEmbed(
         private val color: Color,
@@ -11,7 +12,7 @@ open class BasicEmbed(
         private val title: String,
         private val fields: Map<String, String>? = null,
         private val footer: IEmbed.IEmbedFooter? = null,
-        private val timestamp: LocalDateTime = LocalDateTime.now(ZoneOffset.UTC),
+        private val timestamp: Instant = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant(),
         private val author: IEmbed.IEmbedAuthor? = null,
         private val thumbnail: IEmbed.IEmbedImage? = null,
         private val video: IEmbed.IEmbedVideo? = null,

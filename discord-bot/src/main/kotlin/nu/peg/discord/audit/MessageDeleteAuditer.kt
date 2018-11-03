@@ -8,6 +8,7 @@ import sx.blah.discord.handle.obj.IGuild
 import sx.blah.discord.handle.obj.IMessage
 import sx.blah.discord.handle.obj.IUser
 import java.awt.Color
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -41,7 +42,7 @@ class MessageDeleteAuditer @Inject constructor(
         auditService.log(AuditEventEmbed(Color.RED, "❌ Deleted Message", message.content, mapOf(
                 "Author" to getUserName(message.author, message.guild),
                 "Channel" to message.channel.name,
-                "Creation Time" to message.timestamp.format(DATE_TIME_FORMATTER)
+                "Creation Time" to message.timestamp.atZone(ZoneId.systemDefault()).format(DATE_TIME_FORMATTER)
         )))
     }
 

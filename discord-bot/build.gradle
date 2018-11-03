@@ -61,13 +61,13 @@ dependencies {
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     compile 'javax.inject:javax.inject:1'
-    compile 'io.github.lukehutch:fast-classpath-scanner:2.18.1'
+    compile 'io.github.classgraph:classgraph:4.4.12'
 
     // Metadata for configuration properties
     compile "org.springframework.boot:spring-boot-configuration-processor"
     kapt "org.springframework.boot:spring-boot-configuration-processor"
 
     // JitPack Repositories (cached by Nexus for 1d)
-    compile('com.github.austinv11:Discord4j:2.9.3')
+    compile('com.github.austinv11:Discord4j:2.10.1')
     compile('com.github.Discord4J-Addons:Discord4K:3ed1688')
 }

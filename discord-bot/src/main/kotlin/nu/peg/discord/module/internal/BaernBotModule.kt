@@ -57,10 +57,10 @@ class BaernBotModule
 
     @EventSubscriber
     fun handleReadyEvent(event: ReadyEvent) {
+        clientListenerInjector.injectListeners()
+
         statusService.setStatus(OnlineStatus.ONLINE, "BärnBot v$version | $commandPrefix?")
         ready = true
-
-        clientListenerInjector.injectListeners()
     }
 
     @EventSubscriber

@@ -25,6 +25,7 @@ class DiscordBotProperties {
     var prefix: String? = null
     var version: String? = null
     var auditChannel: String? = null
+    var dbChannel: String? = null
 }
 
 class PolrShortenerProperties {

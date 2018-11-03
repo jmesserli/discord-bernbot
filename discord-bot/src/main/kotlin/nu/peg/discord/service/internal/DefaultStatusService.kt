@@ -7,6 +7,8 @@ import nu.peg.discord.util.getLogger
 import org.slf4j.Logger
 import org.springframework.stereotype.Component
 import sx.blah.discord.api.IDiscordClient
+import sx.blah.discord.handle.obj.ActivityType
+import sx.blah.discord.handle.obj.StatusType
 
 @Component
 class DefaultStatusService : StatusService, DiscordClientListener {
@@ -28,9 +30,9 @@ class DefaultStatusService : StatusService, DiscordClientListener {
 
         val nonNullClient = client!!
         when (onlineStatus) {
-            OnlineStatus.ONLINE -> nonNullClient.online(message)
-            OnlineStatus.DND -> nonNullClient.dnd(message)
-            OnlineStatus.AFK -> nonNullClient.idle(message)
+            OnlineStatus.ONLINE -> nonNullClient.changePresence(StatusType.ONLINE, ActivityType.PLAYING, message)
+            OnlineStatus.DND -> nonNullClient.changePresence(StatusType.DND, ActivityType.PLAYING, message)
+            OnlineStatus.AFK -> nonNullClient.changePresence(StatusType.IDLE, ActivityType.PLAYING, message)
         }
 
         LOGGER.info("Set status to {}, with message {}", onlineStatus, message)
