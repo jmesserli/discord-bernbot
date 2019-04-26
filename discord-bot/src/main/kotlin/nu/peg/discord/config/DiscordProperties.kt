@@ -2,33 +2,26 @@
 
 package nu.peg.discord.config
 
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.NestedConfigurationProperty
+data class DiscordProperties(
+        val api: DiscordApiProperties,
+        val bot: DiscordBotProperties,
+        val polr: PolrShortenerProperties
+)
 
-@ConfigurationProperties("discord")
-class DiscordProperties {
-    @NestedConfigurationProperty
-    var api: DiscordApiProperties? = null
-    @NestedConfigurationProperty
-    var bot: DiscordBotProperties? = null
-    @NestedConfigurationProperty
-    var polr: PolrShortenerProperties? = null
-}
+data class DiscordApiProperties(
+        val clientId: String,
+        val clientSecret: String
+)
 
-class DiscordApiProperties {
-    var clientId: String? = null
-    var clientSecret: String? = null
-}
+data class DiscordBotProperties(
+        val token: String,
+        val prefix: String,
+        val version: String,
+        val auditChannel: String?,
+        val dbChannel: String?
+)
 
-class DiscordBotProperties {
-    var token: String? = null
-    var prefix: String? = null
-    var version: String? = null
-    var auditChannel: String? = null
-    var dbChannel: String? = null
-}
-
-class PolrShortenerProperties {
-    var baseUrl: String? = null
-    var apiKey: String? = null
-}
+data class PolrShortenerProperties(
+        val baseUrl: String?,
+        val apiKey: String?
+)

@@ -1,15 +1,14 @@
 package nu.peg.discord.command.handler.internal
 
+import discord4j.core.spec.EmbedCreateSpec
 import nu.peg.discord.command.Command
 import nu.peg.discord.command.handler.CommandHandler
-import nu.peg.discord.message.BasicEmbed
 import nu.peg.discord.message.EmbedColors
 import nu.peg.discord.service.AudioService
 import nu.peg.discord.service.MessageSendService
-import org.springframework.stereotype.Component
+import nu.peg.discord.util.init
 import javax.inject.Inject
 
-@Component
 class ForceLeaveAllAudioCommandHandler @Inject constructor(
         private val audioService: AudioService,
         private val sendService: MessageSendService
@@ -20,6 +19,15 @@ class ForceLeaveAllAudioCommandHandler @Inject constructor(
 
     override fun handle(command: Command) {
         audioService.forceLeaveAll()
-        sendService.send(command.message.channel, BasicEmbed(EmbedColors.ORANGE, "Sent command to leave all voice channels on all guilds", "Command result"))
+
+        val embedSpec = EmbedCreateSpec().init {
+            setColor(EmbedColors.ORANGE)
+            setDescription("Sent command to leave all voice channels on all guilds")
+            setTitle("Command result")
+        }
+
+        command.message.channel.subscribe {
+            sendService.send(it, embedSpec)
+        }
     }
 }

@@ -1,6 +1,6 @@
 package nu.peg.discord.command
 
-import sx.blah.discord.handle.obj.IMessage
+import discord4j.core.`object`.entity.Message
 
 /**
  * A command is a parsed form of a raw string command
@@ -10,5 +10,5 @@ import sx.blah.discord.handle.obj.IMessage
 interface Command {
     val name: String
     val args: Array<String>
-    val message: IMessage
+    val message: Message
 }

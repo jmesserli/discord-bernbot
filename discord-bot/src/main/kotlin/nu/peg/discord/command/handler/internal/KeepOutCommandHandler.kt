@@ -1,33 +1,27 @@
 package nu.peg.discord.command.handler.internal
 
+import discord4j.core.`object`.entity.Message
+import discord4j.core.`object`.entity.VoiceChannel
 import nu.peg.discord.command.Command
-import org.springframework.stereotype.Component
-import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelEvent
-import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelJoinEvent
-import sx.blah.discord.handle.impl.events.guild.voice.user.UserVoiceChannelMoveEvent
-import sx.blah.discord.handle.obj.IChannel
-import sx.blah.discord.handle.obj.IMessage
-import sx.blah.discord.handle.obj.IUser
-import sx.blah.discord.handle.obj.IVoiceChannel
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-@Component
 class KeepOutCommandHandler : AbstractVoiceChannelCommandHandler(false) {
     override fun isAdminCommand() = true
 
     override fun getNames() = listOf("ko", "keepout")
     override fun getDescription() = "Keep a user out of the current channel for a period"
-    override fun handle(command: Command, message: IMessage, userChannel: IVoiceChannel, targetChannel: IVoiceChannel?) {
-        val channel = message.channel
-
+    override fun handle(command: Command, message: Message, userChannel: VoiceChannel, targetChannel: VoiceChannel?) {
         val targetUserArg = command.args[0]
-        val targetUser = command.message.guild.users.firstOrNull { it.name.contains(targetUserArg, ignoreCase = true) }
-        if (targetUser == null) {
-            channel.sendMessage("No user found that matches \"$targetUserArg\"")
-            return
-        }
+
+        command.message.guild
+                .flatMapMany { it.members }
+                .filter { it.username.contains(targetUserArg, ignoreCase = true) }
+                .switchIfEmpty { subscriber ->
+                    message.channel.subscribe { it.createMessage("No user found that matches \"$targetUserArg\"") }
+                    subscriber.onComplete()
+                }
 
         val durationArg = command.args[1]
         val duration = try {

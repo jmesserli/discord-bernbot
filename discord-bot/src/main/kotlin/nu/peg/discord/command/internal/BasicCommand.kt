@@ -1,7 +1,7 @@
 package nu.peg.discord.command.internal
 
+import discord4j.core.`object`.entity.Message
 import nu.peg.discord.command.Command
-import sx.blah.discord.handle.obj.IMessage
 import java.util.*
 
 /**
@@ -12,7 +12,7 @@ import java.util.*
 class BasicCommand(
         override val name: String,
         override val args: Array<String>,
-        override val message: IMessage
+        override val message: Message
 ) : Command {
     override fun toString(): String {
         return "BasicCommand(name='$name', args=${Arrays.toString(args)}, message=$message)"

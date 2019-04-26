@@ -1,6 +1,7 @@
 package nu.peg.discord.module
 
-import sx.blah.discord.api.IDiscordClient
+import discord4j.core.DiscordClient
+
 
 /**
  * TODO Short summary
@@ -8,5 +9,5 @@ import sx.blah.discord.api.IDiscordClient
  * @author Joel Messerli @23.03.2017
  */
 interface BaernModule {
-    fun enable(client: IDiscordClient): Boolean
+    fun enable(client: DiscordClient): Boolean
 }

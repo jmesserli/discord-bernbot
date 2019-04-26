@@ -2,9 +2,7 @@ package nu.peg.discord.command.handler.internal
 
 import nu.peg.discord.command.Command
 import nu.peg.discord.command.handler.CommandHandler
-import org.springframework.stereotype.Component
 
-@Component
 class ClearKeepOutCommandHandler : CommandHandler {
     override fun isAdminCommand() = true
     override fun getNames() = listOf("cko", "clearkeepout")
@@ -12,6 +10,6 @@ class ClearKeepOutCommandHandler : CommandHandler {
 
     override fun handle(command: Command) {
         KeepOutEventHandler.clearBans()
-        command.message.channel.sendMessage("Cleared voice channel bans")
+        command.message.channel.subscribe { it.createMessage("Cleared voice channel bans") }
     }
 }

@@ -1,8 +1,6 @@
 package nu.peg.discord.urlshortening
 
-import nu.peg.discord.config.ProfileRegistry
 import nu.peg.discord.event.EventListener
-import nu.peg.discord.message.BasicEmbed
 import nu.peg.discord.message.EmbedColors
 import nu.peg.discord.service.LinkShortenerService
 import nu.peg.discord.service.MessageSendService

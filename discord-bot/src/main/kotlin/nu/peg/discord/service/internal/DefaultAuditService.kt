@@ -1,6 +1,5 @@
 package nu.peg.discord.service.internal
 
-import nu.peg.discord.audit.AuditEventEmbed
 import nu.peg.discord.config.DiscordProperties
 import nu.peg.discord.service.AuditService
 import nu.peg.discord.service.MessageSendService

@@ -1,11 +1,9 @@
 package nu.peg.discord
 
-import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.SpringBootApplication
+import nu.peg.discord.config.ConfigUtil
 
-@SpringBootApplication
-class BaernBotApplication
+fun main() {
+    val properties = ConfigUtil.parseFromFile("application.deploy.yml")
 
-fun main(args: Array<String>) {
-    SpringApplication.run(BaernBotApplication::class.java, *args)
+
 }

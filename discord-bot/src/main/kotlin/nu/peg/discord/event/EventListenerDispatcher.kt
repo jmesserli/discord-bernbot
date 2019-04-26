@@ -1,11 +1,9 @@
 package nu.peg.discord.event
 
-import org.springframework.stereotype.Component
-import sx.blah.discord.api.events.Event
+import discord4j.core.event.domain.Event
 import javax.inject.Inject
 import kotlin.reflect.full.isSubclassOf
 
-@Component
 class EventListenerDispatcher @Inject constructor(
         private val eventListeners: List<EventListener<*>>
 ) {

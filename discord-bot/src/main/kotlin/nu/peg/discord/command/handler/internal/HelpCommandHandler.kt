@@ -1,15 +1,13 @@
 package nu.peg.discord.command.handler.internal
 
+import discord4j.core.spec.EmbedCreateSpec
 import nu.peg.discord.command.Command
 import nu.peg.discord.command.handler.CommandHandler
-import nu.peg.discord.message.BasicEmbed
 import nu.peg.discord.message.EmbedColors
 import nu.peg.discord.service.MessageSendService
-import org.springframework.stereotype.Component
-import sx.blah.discord.handle.obj.IEmbed
+import nu.peg.discord.util.init
 import javax.inject.Inject
 
-@Component
 class HelpCommandHandler @Inject constructor(
         private val messageSendService: MessageSendService
 ) : CommandHandler {
@@ -26,17 +24,20 @@ class HelpCommandHandler @Inject constructor(
         commands.sortedBy { it.getNames().sortedByDescending { it.length }.first() }
                 .sortedBy { it.isAdminCommand() }
                 .onEach {
-                    fields.put("${it.getNames().joinToString(", ")}${getAdminString(it)}", it.getDescription())
+                    val key = "${it.getNames().joinToString(", ")}${getAdminString(it)}"
+                    fields[key] = it.getDescription()
                 }
 
-        val embed = BasicEmbed(EmbedColors.LIGHT_BLUE, "List of all available commands:", "Command list", fields,
-                footer = object : IEmbed.IEmbedFooter {
-                    override fun getText() = "Help"
-                    override fun getIconUrl() = "https://cdn.peg.nu/files/resources/icons/material_help.png"
-                }
-        )
+        val embedSpec = EmbedCreateSpec().init {
+            setColor(EmbedColors.LIGHT_BLUE)
+            setFooter("Help", "https://cdn.peg.nu/files/resources/icons/material_help.png")
+            setDescription("Command list")
+            setTitle("List of all available commands:")
 
-        messageSendService.send(command.message.channel, embed)
+            fields.forEach { addField(it.key, it.value, false) }
+        }
+
+        command.message.channel.subscribe { messageSendService.send(it, embedSpec) }
     }
 
     private fun getAdminString(command: CommandHandler): String {

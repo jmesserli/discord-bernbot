@@ -6,7 +6,8 @@ import nu.peg.discord.command.handler.CommandHandler
 import nu.peg.discord.util.authorIsAdmin
 import nu.peg.discord.util.containsIgnoreCase
 import nu.peg.discord.util.getLogger
-import org.springframework.stereotype.Component
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import javax.inject.Inject
 
 /**
@@ -14,25 +15,24 @@ import javax.inject.Inject
  *
  * @author Joel Messerli @15.02.2017
  */
-@Component
 class DefaultCommandDispatcher @Inject constructor(private val handlers: List<CommandHandler>) : CommandDispatcher {
     companion object {
         private val LOGGER = getLogger(DefaultCommandDispatcher::class)
     }
 
     override fun dispatch(command: Command) {
-        if (command.message.author.isBot) return;
+        if (!command.message.author.isPresent || command.message.author.get().isBot) return
 
-        val userIsAdmin = command.message.authorIsAdmin()
-        for (handler in handlers) {
-            val applicable = (!handler.isAdminCommand() || userIsAdmin) && handler.getNames().containsIgnoreCase(command.name)
-            LOGGER.debug("Trying $handler for command $command (isApplicable: $applicable)")
+        Flux.fromIterable(handlers)
+                .filterWhen { isHandlerApplicable(it, command) }
+                .subscribe { it.handle(command) }
 
-            if (applicable) {
-                handler.handle(command)
-                return
-            }
-        }
         LOGGER.info("Found no matching handler for command $command")
+    }
+
+    private fun isHandlerApplicable(handler: CommandHandler, command: Command): Mono<Boolean> {
+        return command.message.authorIsAdmin().map { authorIsAdmin ->
+            (!handler.isAdminCommand() || authorIsAdmin) && handler.getNames().containsIgnoreCase(command.name)
+        }
     }
 }

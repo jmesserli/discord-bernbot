@@ -1,2 +1,1 @@
-include 'discord-bot', 'discord-slave'
-//include 'discord-bot'
+include 'discord-bot'

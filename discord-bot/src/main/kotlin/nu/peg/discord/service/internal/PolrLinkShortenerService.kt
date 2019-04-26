@@ -1,6 +1,5 @@
 package nu.peg.discord.service.internal
 
-import nu.peg.discord.config.ProfileRegistry
 import nu.peg.discord.service.LinkShortenerService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile

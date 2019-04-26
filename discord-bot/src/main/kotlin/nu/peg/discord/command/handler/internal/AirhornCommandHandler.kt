@@ -1,13 +1,11 @@
 package nu.peg.discord.command.handler.internal
 
+import discord4j.core.`object`.entity.Message
+import discord4j.core.`object`.entity.VoiceChannel
 import nu.peg.discord.command.Command
 import nu.peg.discord.service.AudioService
-import org.springframework.stereotype.Component
-import sx.blah.discord.handle.obj.IMessage
-import sx.blah.discord.handle.obj.IVoiceChannel
 import javax.inject.Inject
 
-@Component
 class AirhornCommandHandler @Inject constructor(
         private val audioService: AudioService
 ) : AbstractVoiceChannelCommandHandler(false) {
@@ -15,7 +13,7 @@ class AirhornCommandHandler @Inject constructor(
     override fun getNames() = listOf("ah", "airhorn")
     override fun getDescription() = "Plays an airhorn sound in your channel"
 
-    override fun handle(command: Command, message: IMessage, userChannel: IVoiceChannel, targetChannel: IVoiceChannel?) {
+    override fun handle(command: Command, message: Message, userChannel: VoiceChannel, targetChannel: VoiceChannel?) {
         val guild = userChannel.guild
 
         audioService.joinVoice(userChannel)
